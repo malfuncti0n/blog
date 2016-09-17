@@ -1,0 +1,123 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+    <div class="row">
+        {# to kommati tou articles#}
+<div class="col-md-8">
+
+
+             <article>
+                <h2><a href="{{ path_for('post.index',{'title': post.slug}) }}">{{ post.title }}</a></h2>
+                 <p class="lead"><i class="fa fa-user"></i> by <a href="">{{  users[post.id][0].name }} </a>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <span class="glyphicon glyphicon-folder-open"></span> &nbsp;<a href="{{ path_for('tags') }}">tags: </a>
+                        &nbsp;&nbsp;<span class="glyphicon glyphicon-bookmark"></span> 
+                        {% for tag in tags[post.id] %}
+                        <a href="{{ path_for('tag.single',{'value': tag.slug}) }}">{{ tag.value }}</a>
+                        {% endfor %}
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <span class="glyphicon glyphicon-pencil"></span> <a href="{{ path_for('post.index',{'title': post.slug}) }}">{{ commentCount[post.id] }}</a>
+                        &nbsp;&nbsp;<span class="glyphicon glyphicon-time"></span> {{ post.created_at }}
+                    </div>
+                </div>
+
+                <hr>
+
+
+
+                <br />
+
+                {{ post.content | raw }}
+                <p class="text-right">
+                    <a href="{{ path_for('home') }}">
+                        See  all posts
+                    </a>
+                </p>
+
+                <hr>
+            </article>
+    <h2 class="page-header">Comments</h2>
+    <section class="comment-list">
+        {% for comment in comments %}
+        <!-- First Comment -->
+        <article class="row">
+            <div class="col-md-2 col-sm-2 hidden-xs">
+                <figure class="thumbnail">
+                    <img class="img-responsive" src="http://www.keita-gaming.com/assets/profile/default-avatar-c5d8ec086224cb6fc4e395f4ba3018c2.jpg" />
+                    <figcaption class="text-center">{{ userPerComment[comment.id][0].name }}</figcaption>
+                </figure>
+            </div>
+            <div class="col-md-10 col-sm-10">
+                <div class="panel panel-default arrow left">
+                    <div class="panel-body">
+                        <header class="text-left">
+                            <div class="comment-user"><i class="fa fa-user"></i> {{ userPerComment[comment.id][0].name }}</div>
+                            <time class="comment-date" datetime="{{ comment.created_at }}"><i class="fa fa-clock-o"></i> {{ comment.created_at }} </time>
+                        </header>
+                        <div class="comment-post">
+                            <p>
+                               {{ comment.content }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+
+
+
+        {# comment reply #}
+        {% if auth.check %}
+        <article class="row">
+            <div class="col-md-2 col-sm-2 hidden-xs">
+                <figure class="thumbnail">
+                    <img class="img-responsive" src="http://www.keita-gaming.com/assets/profile/default-avatar-c5d8ec086224cb6fc4e395f4ba3018c2.jpg" />
+                    <figcaption class="text-center">{{ userPerComment['session'][0].name }}</figcaption>
+                </figure>
+            </div>
+            <div class="col-md-10 col-sm-10">
+                <div class="panel panel-default arrow left">
+                    <div class="panel-body">
+
+                        <form action="{{ path_for('comment.create') }}" method="post" autocomplete="off">
+                            <div class="form-group{{ errors.content ? ' has-error' : '' }}">
+                                <label for="content">Your Post content</label>
+                                <textarea class="form-control" id="content" name="content">Write your reply</textarea>
+                                {% if errors.content %}
+                                    <span class="help-block">{{ errors.content | first }}</span>
+                                {% endif %}
+                            </div>
+                            <input type="hidden" name="post_id" value="{{ post.id }}" />
+                            <input type="hidden" name="post_slug" value="{{ post.slug }}" />
+                            <button type="submit" class="btn btn-default">reply</button>
+
+                            {{ csrf.field | raw }}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        {% endif %}
+    </section>
+    </div>
+        {# to kommati tou articles telos#}
+
+
+
+
+
+
+
+
+        {% include 'templates/partials/sidebar.twig' %}
+    
+
+</div>
+
+
+{% endblock %}
+{# empty Twig template #}

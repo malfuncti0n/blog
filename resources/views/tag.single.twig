@@ -1,0 +1,88 @@
+{% extends 'templates/app.twig' %}
+
+{%  block content %}
+<div class="row">
+    <div class="col-md-8">
+
+        {% for post in posts %}
+
+            <article>
+
+                <h2><a href="{{ path_for('post.index',{'title': post.slug}) }}">{{ post.title }}</a></h2>
+                <p class="lead"><i class="fa fa-user"></i> by <a href="">{{  users[post.id][0].name }} </a>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <span class="glyphicon glyphicon-folder-open"></span> &nbsp;<a href="{{ path_for('tags') }}">tags: </a>
+                        &nbsp;&nbsp;<span class="glyphicon glyphicon-bookmark"></span>
+                        {% for tag in tags[post.id] %}
+                            <a href="{{ path_for('tag.single',{'value': tag.slug}) }}">{{ tag.value }}</a>
+                        {% endfor %}
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <span class="glyphicon glyphicon-pencil"></span> <a href="{{ path_for('post.index',{'title': post.slug}) }}">{{ commentsCount[post.id] }}</a>
+                        &nbsp;&nbsp;<span class="glyphicon glyphicon-time"></span> {{ post.created_at }}
+                    </div>
+                </div>
+
+
+                <hr>
+
+
+
+                <br />
+                {{ post.content|length > 50 ? post.content|striptags|slice(0, 3000) | raw   : post.content |raw }}
+                {{ post.content|length > 50 ? '...' : '' }}
+                {#{{ post.content}}#}
+                <p class="text-right">
+                    <a href="{{ path_for('post.index',{'title': post.slug}) }}">
+                        continue reading...
+                    </a>
+                </p>
+
+
+                <hr>
+            </article>
+        {% endfor %}
+
+    </div>
+
+
+    {% include 'templates/partials/sidebar.twig' %}
+</div>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <nav aria-label="...">
+                <ul class="pagination">
+                    <li class="page-item {{ currentPage < 2 ? ' disabled' : '' }}">
+                        <a class="page-link" href="
+                            {% if currentPage < 2 %}
+                                 #
+                             {% else %}
+                            {{  path_for('home.page',{'number': currentPage-1}) }}
+                            {% endif %}" tabindex="-1" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li class="page-item active">
+                        <a class="page-link" href="{{ path_for('home.page',{'number': currentPage}) }}">{{ currentPage }} <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="page-item {{ currentPage >= postPages ? ' disabled' : '' }}">
+                        <a class="page-link" href="
+                            {%  if currentPage >=postPages %}
+                                 #
+                            {%  else %}
+                            {{ path_for('home.page',{'number': currentPage+1}) }}
+                            {% endif %}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+
+{% endblock %}
