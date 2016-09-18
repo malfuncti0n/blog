@@ -40,7 +40,7 @@ class HomeController extends Controller
         //se ayth th loypa pernw symplhromatika stixia gia ta post
         //opos comments, user  kai tags
         foreach ($posts as $post){
-           // var_dump($posts);
+
             //pernoume ta comments gia to kathe post kai ta vazoume sto array
              $commentsCount[$post->id]=Post::find($post->id)->comments->count();
              $tags[$post->id]=Post::find($post->id)->tags;
@@ -52,17 +52,22 @@ class HomeController extends Controller
 
 
          $this->prepareSidebar();
-       // $this->addViewParameters();
 
-//
-//        $this->addViewParameters(array(
-//            'posts'=>$posts,
-//            'commentsCount'=>$commentsCount,
+
+//        var_dump($tags);
+////        die();
+//        $params=array('posts'=>$posts,
 //            'tags',$tags,
 //            'users',$users,
 //            'postPages',$postPages,
-//            'currentPage',$currentPage
-//        ));
+//            'currentPage',$currentPage,
+//            'commentsCount'=>$commentsCount,);
+//
+//
+//        $this->addViewParameters($params);
+
+        //paize to post,commentsCount
+        //den paizoun ta tags,users,kai paginatetion
 
 
         $this->view->getEnvironment()->addGlobal('posts',$posts);

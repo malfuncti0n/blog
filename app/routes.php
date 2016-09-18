@@ -32,6 +32,10 @@ $app->group('', function () {
     $this->get('/create/post', 'PostController:getCreate')->setName('post.create');
     $this->post('/create/post', 'PostController:postCreate');
 
+    //for post editing
+    $this->get('/edit/post/{post_id}', 'PostController:getEdit')->setName('post.edit');
+    $this->post('/edit/post/{post_id}', 'PostController:postEdit');
+
     //the comment creation
     $this->post('/create/comment', 'CommentController:postCommentCreate')->setName('comment.create');
 

@@ -1,0 +1,44 @@
+{% extends 'templates/app.twig' %}
+{% block extralinks %}
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>tinymce.init({ selector:'#content' });</script>
+{% endblock %}
+{% block content %}
+    <div class="raw">
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">Post editor</div>
+                <div class="panel-body">
+                    <form action="{{ path_for('post.edit',{'post_id': post[0].id}) }}" method="post" autocomplete="off">
+                        <div class="form-group{{ errors.title ? ' has-error' : '' }}">
+                            <label for="title">Title</label>
+                            <input type="text" name="title" id="title" placeholder="Your post title" class="form-control" value="{{ old.title  ? old.title : post[0].title }} ">
+                            {% if errors.email %}
+                                <span class="help-block">{{ errors.title | first }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="form-group{{ errors.content ? ' has-error' : '' }}">
+                            <label for="content">Your Post content</label>
+                            <textarea class="form-control" id="content" name="content">{{ old.content  ? old.content |raw  : post[0].content |raw }}</textarea>
+                            {% if errors.content %}
+                                <span class="help-block">{{ errors.content | first }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="form-group{{ errors.tag ? ' has-error' : '' }}">
+                            <label for="tag">Tags</label>
+                            <input type="text" name="tag" id="tag" placeholder="tag1,tag2,tag3..." class="form-control" value="{% for tag in tags %}{{tag.value}},{% endfor %}">
+                            {% if errors.tag %}
+                                <span class="help-block">{{ errors.tag | first }}</span>
+                            {% endif %}
+                        </div>
+                        <button type="submit" class="btn btn-default">Save your post</button>
+
+                        {{ csrf.field | raw }}
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% include 'templates/partials/sidebar.twig' %}
+    </div>
+{% endblock %}
+

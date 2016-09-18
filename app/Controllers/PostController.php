@@ -111,4 +111,74 @@ class PostController extends Controller
 
         return $response->withRedirect($this->router->pathFor('post.index',array('title' => $slug)));
     }
+
+    public function postEdit($request, $response){
+
+
+
+
+            $validation = $this->validator->validate($request, [
+                // ->emailAvailable()
+                'title' => v::notEmpty(),
+                'content' => v::notEmpty()
+            ]);
+
+            if ($validation->failed()) {
+                return $response->withRedirect($this->router->pathFor('post.create'));
+            }
+
+        $post=Post::find($request->getAttribute('routeInfo')[2]['post_id']);
+        $post->title=$request->getParam('title');
+        $post->slug=$this->slug->slugify($request->getParam('title'));
+        $post->content=$request->getParam('content');
+        $post->save();
+
+
+        $slugs=Post::find($request->getAttribute('routeInfo')[2]['post_id'])->tags;
+        var_dump($slugs);
+        foreach ($slugs as $slug){
+            $slug->delete();
+        }
+
+        $time=$this->carbon->now();
+        $tags=explode(',',$request->getParam('tag'));
+        $i=0;
+        foreach($tags as $tag){
+            $tagSlug=$this->slug->slugify(trim($tag));
+            $data[$i] = array('post_id'=>$post->id, 'value'=>$tag, 'slug'=>$tagSlug, 'created_at'=>$time, 'updated_at'=>$time);
+            $i++;
+        }
+
+        Tag::insert($data);
+
+        $this->flash->addMessage('info', 'Your changes saved!');
+
+        return $response->withRedirect($this->router->pathFor('post.index',array('title' => $post->slug)));
+
+
+
+    }
+
+
+
+
+    public function getEdit($request, $response){
+
+        $post=Post::where('id','=',$request->getAttribute('routeInfo')[2]['post_id'])->get();
+
+
+
+
+        $this->prepareSidebar();
+        $tags=Post::find($request->getAttribute('routeInfo')[2]['post_id'])->tags;
+        $this->view->getEnvironment()->addGlobal('tags',$tags);
+        $this->view->getEnvironment()->addGlobal('post',$post);
+        return $this->view->render($response,'post.edit.twig');
+    }
+
+
+
+
 }
+
+

@@ -63,10 +63,16 @@ class Controller
     }
 
     public function addViewParameters($params=[]){
-        //var_dump($params);
+
 
         foreach ($params as $key => $param){
             $this->view->getEnvironment()->addGlobal($key,$param);
+            echo '<pre>';
+             var_dump($key);
+            echo '</pre>';
+            echo '<pre>';
+            var_dump($param);
+            echo '</pre>';
         }
         return true;
     }
