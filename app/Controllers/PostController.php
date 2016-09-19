@@ -181,19 +181,19 @@ class PostController extends Controller
 
 
     public function createRss($request, $response){
-            $testFeed= new rss;
-            $testFeed->setTitle('Great ideas');
-            $testFeed->setLink('http://openideas.local');
-            $testFeed->setDescription('Blog featuring great ideas.');
-            $testFeed->setChannelElement('language', 'el-GR');
-            $testFeed->setDate(date(DATE_RSS, time()));
-            $testFeed->setChannelElement('pubDate', date(\DATE_RSS, strtotime('2016-09-12')));
-            $testFeed->addGenerator();
+            $feed= new rss;
+            $feed->setTitle('Great ideas');
+            $feed->setLink('http://openideas.local');
+            $feed->setDescription('Blog featuring great ideas.');
+            $feed->setChannelElement('language', 'el-GR');
+            $feed->setDate(date(DATE_RSS, time()));
+            $feed->setChannelElement('pubDate', date(\DATE_RSS, strtotime('2016-09-12')));
+            $feed->addGenerator();
 
             $posts=Post::orderBy('id','desc')->get();
 
             foreach ($posts as $post){
-                $newItem[$post->id]=$testFeed->createNewItem();
+                $newItem[$post->id]=$feed->createNewItem();
                 $newItem[$post->id]->setTitle($post->title);
                 $newItem[$post->id]->setLink('http://openideas.local/view/posts/single/'.$post->slug);
                 //var_dump($post->created_at);
@@ -204,12 +204,14 @@ class PostController extends Controller
                 $newItem[$post->id]->setAuthor($user->name,$user->email);
                 $newItem[$post->id]->setId('http://openideas.local/view/posts/single/'.$post->slug, true);
                 $newItem[$post->id]->addElement('source', 'Openideas blog', array('url' => 'http://openideas.local'));
-                $testFeed->addItem($newItem[$post->id]);
+                $feed->addItem($newItem[$post->id]);
             }
-        $myFeed = $testFeed->generateFeed();
-        $testFeed->printFeed();
 
-//            return $response->withRedirect
+        $feed->generateFeed();
+
+        $this->view->getEnvironment()->addGlobal('feed',$feed);
+
+        return $this->view->render($response, 'rss.twig');
 
 
 
