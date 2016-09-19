@@ -31,7 +31,7 @@ class Post extends Model {
         return $this->hasMany('App\Models\Tag');
     }
     public function user(){
-        return $this->hasOne('App\Models\User');
+       return $this->belongsTo('App\Models\User');
     }
 
     public function latestPost(){

@@ -67,12 +67,6 @@ class Controller
 
         foreach ($params as $key => $param){
             $this->view->getEnvironment()->addGlobal($key,$param);
-            echo '<pre>';
-             var_dump($key);
-            echo '</pre>';
-            echo '<pre>';
-            var_dump($param);
-            echo '</pre>';
         }
         return true;
     }

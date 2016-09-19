@@ -11,9 +11,12 @@ use Respect\Validation\Validator as v;
 use Cocur\Slugify\Slugify as slug;
 use Carbon\Carbon as carbon;
 use Illuminate\Database\Capsule\Manager as DB;
+use FeedWriter\RSS2 as rss;
 
 class PostController extends Controller
 {
+
+//    protected
 
     public function index($request, $response)
     {   
@@ -174,6 +177,43 @@ class PostController extends Controller
         $this->view->getEnvironment()->addGlobal('tags',$tags);
         $this->view->getEnvironment()->addGlobal('post',$post);
         return $this->view->render($response,'post.edit.twig');
+    }
+
+
+    public function createRss($request, $response){
+            $testFeed= new rss;
+            $testFeed->setTitle('Great ideas');
+            $testFeed->setLink('http://openideas.local');
+            $testFeed->setDescription('Blog featuring great ideas.');
+            $testFeed->setChannelElement('language', 'el-GR');
+            $testFeed->setDate(date(DATE_RSS, time()));
+            $testFeed->setChannelElement('pubDate', date(\DATE_RSS, strtotime('2016-09-12')));
+            $testFeed->addGenerator();
+
+            $posts=Post::orderBy('id','desc')->get();
+
+            foreach ($posts as $post){
+                $newItem[$post->id]=$testFeed->createNewItem();
+                $newItem[$post->id]->setTitle($post->title);
+                $newItem[$post->id]->setLink('http://openideas.local/view/posts/single/'.$post->slug);
+                //var_dump($post->created_at);
+                $newItem[$post->id]->setDate($post->created_at);
+                //var_dump($post->id);
+                $user=User::where('id','=',$post->user_id)->first();
+                //var_dump($user);
+                $newItem[$post->id]->setAuthor($user->name,$user->email);
+                $newItem[$post->id]->setId('http://openideas.local/view/posts/single/'.$post->slug, true);
+                $newItem[$post->id]->addElement('source', 'Openideas blog', array('url' => 'http://openideas.local'));
+                $testFeed->addItem($newItem[$post->id]);
+            }
+        $myFeed = $testFeed->generateFeed();
+        $testFeed->printFeed();
+
+//            return $response->withRedirect
+
+
+
+
     }
 
 

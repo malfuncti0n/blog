@@ -20,4 +20,8 @@ class User extends Model
             'password' => password_hash($password, PASSWORD_DEFAULT)
         ]);
     }
+
+    public function posts(){
+        return $this->hasMany('App\Models\Tag');
+    }
 }

@@ -8,7 +8,10 @@
         "slim/flash": "^0.1.0",
         "Illuminate/Pagination": "^5.3",
         "cocur/slugify": "^2.3",
-        "nesbot/carbon": "^1.21"
+        "nesbot/carbon": "^1.21",
+        "PHPMailer/PHPMailer": "^5.2",
+        "hassankhan/config": "^0.10.0",
+        "mibe/FeedWriter": "^1.0"
     },
     "autoload": {
         "psr-4": {

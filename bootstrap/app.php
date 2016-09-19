@@ -27,7 +27,13 @@ $app = new \Slim\App([
     ],
 ]);
 
+
 $container = $app->getContainer();
+
+//$container['config'] = function ($container) {
+//    return new \Noodlehaus\Config($conf = new Config(__DIR__ . '/config'));
+//};
+
 
 $capsule = new \Illuminate\Database\Capsule\Manager;
 $capsule->addConnection($container['settings']['db']);
@@ -51,6 +57,9 @@ $container['flash'] = function ($container) {
 $container['slug'] = function ($container) {
     return new \Cocur\Slugify\Slugify;
 };
+//testing config files
+
+
 
 $container['view'] = function ($container) {
     $view = new \Slim\Views\Twig(__DIR__ . '/../resources/views', [
@@ -112,6 +121,14 @@ $container['carbon']= function ($container){
     return new \Carbon\Carbon;
 };
 
+$container['rss']= function ($container){
+    return new \FeedWriter\RSS2;
+};
+
+
+//$container['mail']= function ($container){
+//    return new PHPMailer;
+//};
 $app->add(new \App\Middleware\ValidationErrorsMiddleware($container));
 $app->add(new \App\Middleware\OldInputMiddleware($container));
 $app->add(new \App\Middleware\CsrfViewMiddleware($container));
