@@ -18,7 +18,7 @@ use Illuminate\Database\Capsule\Manager as DB;
 
 class TagController extends Controller
 {
-    protected $pageLimit=7;
+    protected $pageLimit=15;
 
     public function index($request, $response){
         $allTags=Tag::groupBy('value')->orderBy(DB::raw('count(value)', 'DESC'))->get();

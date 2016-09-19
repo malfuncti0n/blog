@@ -55,7 +55,14 @@ class Controller
     }
 
     public function topTags(){
-        return Tag::groupBy('value')->orderBy(DB::raw('count(value)', 'DESC'))->take($this->tagLimit)->get();
+       // return Tag::groupBy('value')->orderBy(DB::raw('count(value)', 'DESC'))->take($this->tagLimit)->get();
+//   $tags=DB::table('tags')
+//            ->select('value,count(*) as times')->groupBy('value')->orderBy('times','desc')->take($this->tagLimit)->get;
+        return Tag::select('value', DB::raw('COUNT(value) as count'))
+            ->groupBy('value')
+            ->orderBy('count', 'desc')
+            ->take($this->tagLimit)->get();
+
     }
 
     public function latestComments(){
