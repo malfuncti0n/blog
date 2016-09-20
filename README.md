@@ -9,8 +9,8 @@ Fully working blog written in **PHP** base on **Slim micro-framework** and **Twi
 3. comment creation with tinymc
 4. Latest post block
 5. Full tag support
-6. Sluged urls from post titles for best CEO
-7. post display from tags CEO friendly
+6. Sluged urls from post titles for best SEO
+7. post display from tags SEO friendly
 8. latest comment block
 9. post edit functionality
 10. rss for posts 
