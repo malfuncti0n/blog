@@ -15,7 +15,6 @@
                     <div class="col-sm-6 col-md-6">
                         <span class="glyphicon glyphicon-folder-open"></span> &nbsp;<a href="{{ path_for('tags') }}">tags: </a>
                         &nbsp;&nbsp;<span class="glyphicon glyphicon-bookmark"></span>
-
                         {% for tag in tags[post.id] %}
 
                         <a href="{{ path_for('tag.single',{'value': tag.slug}) }}">{{ tag.value }}</a>
@@ -53,6 +52,8 @@
         {% include 'templates/partials/sidebar.twig' %}
 
 </div>
+
+    {%  if posts %}
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <nav aria-label="...">
@@ -86,4 +87,5 @@
             </nav>
         </div>
     </div>
+{% endif %}
 {% endblock %}
