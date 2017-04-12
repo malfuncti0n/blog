@@ -53,23 +53,6 @@ class HomeController extends Controller
 
          $this->prepareSidebar();
 
-
-//        var_dump($tags);
-////        die();
-//        $params=array('posts'=>$posts,
-//            'tags',$tags,
-//            'users',$users,
-//            'postPages',$postPages,
-//            'currentPage',$currentPage,
-//            'commentsCount'=>$commentsCount,);
-//
-//
-//        $this->addViewParameters($params);
-
-        //paize to post,commentsCount
-        //den paizoun ta tags,users,kai paginatetion
-
-
         $this->view->getEnvironment()->addGlobal('posts',$posts);
         $this->view->getEnvironment()->addGlobal('commentsCount',$commentsCount);
         $this->view->getEnvironment()->addGlobal('tags',$tags);
