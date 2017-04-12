@@ -7,7 +7,11 @@ ini_set('xdebug.var_display_max_data', -1);
 
 use Respect\Validation\Validator as v;
 
+//configuration values
+use Noodlehaus\Config;
+
 session_start();
+$config = new Config(__DIR__ . '/../app/config');
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -15,14 +19,14 @@ $app = new \Slim\App([
     'settings' => [
         'displayErrorDetails' => true,
         'db' => [
-            'driver' => 'mysql',
-            'host' => 'localhost',
-            'database' => 'openidea',
-            'username' => 'root',
-            'password' => '',
-            'charset' => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix' => '',
+            'driver' => $config->get('mysql.driver'),
+            'host' => $config->get('mysql.host'),
+            'database' => $config->get('mysql.database'),
+            'username' => $config->get('mysql.username'),
+            'password' => $config->get('mysql.password'),
+            'charset' =>  $config->get('mysql.charset'),
+            'collation' => $config->get('mysql.collation'),
+            'prefix' => $config->get('mysql.prefix'),
         ]
     ],
 ]);
