@@ -5,6 +5,8 @@ ini_set('xdebug.var_display_max_depth', -1);
 ini_set('xdebug.var_display_max_children', -1);
 ini_set('xdebug.var_display_max_data', -1);
 
+require __DIR__ . '/../vendor/autoload.php';
+
 use Respect\Validation\Validator as v;
 
 //configuration values
@@ -13,7 +15,7 @@ use Noodlehaus\Config;
 session_start();
 $config = new Config(__DIR__ . '/../app/config');
 
-require __DIR__ . '/../vendor/autoload.php';
+
 
 $app = new \Slim\App([
     'settings' => [
