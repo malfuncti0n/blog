@@ -31,7 +31,7 @@
 
                 <br />
 
-                {{ post.content }}
+                {{ post.content | raw }}
                 <p class="text-right">
                     <a href="{{ path_for('home') }}">
                         See  all posts
