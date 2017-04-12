@@ -2,10 +2,10 @@
 return [
     'mysql'=>[
         'driver' => 'mysql',
-        'host' => 'localhost',
-        'database' => 'openidea',
-        'username' => 'root',
-        'password' => '',
+        'host' => getenv('DBHOST'),
+        'database' => getenv('DATABASE'),
+        'username' => getenv('DBUSER'),
+        'password' => getenv('DBPASSWORD'),
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
         'prefix' => ''
