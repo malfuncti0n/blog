@@ -10,7 +10,8 @@
         "nesbot/carbon": "^1.21",
         "PHPMailer/PHPMailer": "^5.2",
         "hassankhan/config": "^0.10.0",
-        "mibe/FeedWriter": "^1.0"
+        "mibe/FeedWriter": "^1.0",
+        "robmorgan/phinx": "^0.8.0"
     },
     "autoload": {
         "psr-4": {
