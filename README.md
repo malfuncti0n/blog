@@ -1,6 +1,6 @@
 # blog
 
-this api is running on heroku https://blog-mvc.herokuapp.com/ based on master branch
+this app is running on heroku https://blog-mvc.herokuapp.com/ based on master branch
 
 Fully working blog written in **PHP** base on **Slim micro-framework** and **Twig** template engine. All **HTML** code is functional **Twitter/Bootsrap** Code
 
